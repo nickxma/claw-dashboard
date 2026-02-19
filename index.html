@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claw — Operator Dashboard</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #e0e0e0;
+    --text-dim: #777;
+    --accent: #4ade80;
+    --accent-dim: #166534;
+    --warn: #facc15;
+    --danger: #ef4444;
+    --blue: #60a5fa;
+    --purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header .meta {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card-full { grid-column: 1 / -1; }
+  .card h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h2 .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-green { background: var(--accent); }
+  .dot-yellow { background: var(--warn); }
+  .dot-red { background: var(--danger); }
+  .dot-blue { background: var(--blue); }
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check { color: var(--accent); flex-shrink: 0; }
+  .uncheck { color: var(--text-dim); flex-shrink: 0; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-left: 8px;
+  }
+  .tag-active { background: var(--accent-dim); color: var(--accent); }
+  .tag-blocked { background: #451a03; color: var(--warn); }
+  .tag-pending { background: #1e1b4b; color: var(--purple); }
+  .tag-ready { background: #172554; color: var(--blue); }
+  .objectives { list-style: none; }
+  .objectives li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .objectives li:last-child { border-bottom: none; }
+  .obj-label {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .obj-name { font-weight: 500; }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--text-dim); }
+  .stat-value { font-weight: 500; }
+  .cron-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .cron-item:last-child { border-bottom: none; }
+  .cron-name { font-weight: 500; }
+  .cron-schedule { font-size: 12px; color: var(--text-dim); }
+  .loop-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .loop-item:last-child { border-bottom: none; }
+  .loop-age { font-size: 12px; color: var(--warn); }
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>▪</span> Claw — Operator Dashboard</h1>
+  <div class="meta">Last updated: Feb 18, 2026 · 23:45 CT</div>
+</div>
+
+<div class="grid">
+
+  <!-- Workstreams -->
+  <div class="card">
+    <h2><span class="dot dot-green"></span> Workstreams</h2>
+    <ul class="checklist">
+      <li>
+        <span class="uncheck">☐</span>
+        <div>
+          🧘 Mindfulness → X Pipeline
+          <span class="tag tag-blocked">blocked</span>
+          <br><span class="obj-label">Need: Twitter Access Token regenerated (read+write)</span>
+        </div>
+      </li>
+      <li>
+        <span class="uncheck">☐</span>
+        <div>
+          📝 Stablecoin Writing
+          <span class="tag tag-ready">ready</span>
+          <br><span class="obj-label">Next: Rewrite draft #1 — exec-audience, a16z tone</span>
+        </div>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <div>
+          📊 Dashboard
+          <span class="tag tag-active">live</span>
+          <br><span class="obj-label">This page. Auto-updated by Claw.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Active Objectives -->
+  <div class="card">
+    <h2><span class="dot dot-blue"></span> Active Objectives</h2>
+    <ul class="objectives">
+      <li>
+        <span class="obj-label">MUST · OBJ-106</span><br>
+        <span class="obj-name">Become a stablecoin expert</span>
+        <span class="tag tag-pending">recovering</span>
+      </li>
+      <li>
+        <span class="obj-label">MUST · OBJ-84</span><br>
+        <span class="obj-name">Be with a "baddie"</span>
+        <span class="tag tag-blocked">losing focus</span>
+      </li>
+      <li>
+        <span class="obj-label">MUST · OBJ-107</span><br>
+        <span class="obj-name">Sell Manhattan co-op</span>
+        <span class="tag tag-pending">~85 days left</span>
+      </li>
+      <li>
+        <span class="obj-label">MUST · OBJ-49</span><br>
+        <span class="obj-name">Daily practice</span>
+        <span class="tag tag-active">on track</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Cron Jobs -->
+  <div class="card">
+    <h2><span class="dot dot-yellow"></span> Automations</h2>
+    <div class="cron-item">
+      <div class="cron-name">☀️ Daily Crypto Intel Brief</div>
+      <div class="cron-schedule">6:30 AM CT · daily · → Telegram</div>
+    </div>
+    <div class="cron-item">
+      <div class="cron-name">🧘 Mindfulness Tweet</div>
+      <div class="cron-schedule">not yet scheduled · pending Twitter auth</div>
+    </div>
+    <div class="cron-item">
+      <div class="cron-name">💓 Heartbeat</div>
+      <div class="cron-schedule">hourly · system health check</div>
+    </div>
+  </div>
+
+  <!-- System Stats -->
+  <div class="card">
+    <h2><span class="dot dot-green"></span> System</h2>
+    <div class="stat-row">
+      <span class="stat-label">Model</span>
+      <span class="stat-value">claude-opus-4</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Channel</span>
+      <span class="stat-value">Telegram</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Memory files</span>
+      <span class="stat-value">2 daily + MEMORY.md</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Waking Up transcripts</span>
+      <span class="stat-value">2,203 files</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Twitter auth</span>
+      <span class="stat-value" style="color: var(--warn);">needs regen</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Brave Search</span>
+      <span class="stat-value" style="color: var(--warn);">not configured</span>
+    </div>
+  </div>
+
+  <!-- Open Loops -->
+  <div class="card card-full">
+    <h2><span class="dot dot-yellow"></span> Open Loops · Waiting on Nick</h2>
+    <div class="loop-item">
+      <span>Regenerate Twitter Access Token + Secret (read+write perms)</span>
+      <span class="loop-age">since Feb 18</span>
+    </div>
+    <div class="loop-item">
+      <span>Review stablecoin draft #1 voice (once rewritten)</span>
+      <span class="loop-age">pending</span>
+    </div>
+    <div class="loop-item">
+      <span>Configure Brave Search API key → <code>openclaw configure --section web</code></span>
+      <span class="loop-age">since Feb 17</span>
+    </div>
+    <div class="loop-item">
+      <span>Last full objectives check-in: Jan 31 (19 days stale)</span>
+      <span class="loop-age">overdue</span>
+    </div>
+    <div class="loop-item">
+      <span>Week 6 goal: ask out Molly — now week 8+</span>
+      <span class="loop-age">overdue</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Claw · Nick's long-horizon operator · built on OpenClaw
+</div>
+
+</body>
+</html>
